@@ -4,7 +4,7 @@
       "\u00c3\u0086var Arnfj\u00c3\u00b6r\u00c3\u00b0 Bjarmason <avar@cpan.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.300005, CPAN::Meta::Converter version 2.112621",
+   "generated_by" : "Dist::Zilla version 4.300021, CPAN::Meta::Converter version 2.120921",
    "license" : [
       "perl_5"
    ],
@@ -26,21 +26,21 @@
       },
       "runtime" : {
          "requires" : {
-            "Carp" : 0,
-            "Moose::Role" : 0,
-            "MooseX::Types" : 0,
-            "MooseX::Types::Moose" : 0,
-            "Try::Tiny" : 0
+            "Carp" : "0",
+            "Moose::Role" : "0",
+            "MooseX::Types" : "0",
+            "MooseX::Types::Moose" : "0",
+            "Try::Tiny" : "0"
          }
       },
       "test" : {
          "requires" : {
-            "File::Find" : 0,
-            "File::Temp" : 0,
-            "Moose" : 0,
-            "Test::More" : 0,
-            "strict" : 0,
-            "warnings" : 0
+            "File::Find" : "0",
+            "File::Temp" : "0",
+            "Moose" : "0",
+            "Test::More" : "0",
+            "strict" : "0",
+            "warnings" : "0"
          }
       }
    },
@@ -60,7 +60,7 @@
          "web" : "http://github.com/avar/moosex-attribute-typeconstraint-customizefatal"
       }
    },
-   "version" : "0.01",
+   "version" : "0.02",
    "x_authority" : "cpan:AVAR"
 }
 

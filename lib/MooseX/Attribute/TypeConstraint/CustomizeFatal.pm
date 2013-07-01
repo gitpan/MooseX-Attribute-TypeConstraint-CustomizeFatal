@@ -3,7 +3,7 @@ BEGIN {
   $MooseX::Attribute::TypeConstraint::CustomizeFatal::AUTHORITY = 'cpan:AVAR';
 }
 {
-  $MooseX::Attribute::TypeConstraint::CustomizeFatal::VERSION = '0.01';
+  $MooseX::Attribute::TypeConstraint::CustomizeFatal::VERSION = '0.02';
 }
 use Moose::Role;
 use MooseX::Types::Moose ':all';
@@ -75,7 +75,7 @@ BEGIN {
   $Moose::Meta::Attribute::Custom::Trait::TypeConstraint::CustomizeFatal::AUTHORITY = 'cpan:AVAR';
 }
 {
-  $Moose::Meta::Attribute::Custom::Trait::TypeConstraint::CustomizeFatal::VERSION = '0.01';
+  $Moose::Meta::Attribute::Custom::Trait::TypeConstraint::CustomizeFatal::VERSION = '0.02';
 }
 sub register_implementation { 'MooseX::Attribute::TypeConstraint::CustomizeFatal' }
 
@@ -123,6 +123,15 @@ MooseX::Attribute::TypeConstraint::CustomizeFatal - Control how failed type cons
         # d => "foo", # will die, just like Moose does by default
     );
 
+    my $class = Class->new;
+    # Does *NOT* work (even if "is" was "rw"), all of this dies
+    # $class->(a => "foo");
+    # $class->(b => "foo");
+    # $class->(c => "foo");
+    # $class->(d => "foo");
+
+    1; # *NOT* __PACKAGE__->meta->make_immutable;
+
 =head1 DESCRIPTION
 
 By default Moose will just die if you give an attribute a
@@ -131,6 +140,27 @@ behavior to make failures either issue an error like Moose does by
 default (this is the default), a warning and keep the invalid value,
 or falling back to the default value either silently or with a
 warning.
+
+=head1 CAVEATS
+
+This B<only> works when you construct your class (i.e. with C<new>)
+and not when setting the values later with an accessor. Therefore you
+can use this to construct a validating object that has only C<ro>
+attributes, but not to incrementally add data to the C<rw> attributes
+of a constructed object (we'll just die on invalid data as Moose does
+by default).
+
+This also B<doesn't work> if you make your classes
+immutable. I.e. with C<__PACKAGE__->meta->make_immutable;> at the end
+of the class in question instead of C<1;>.
+
+I might address these caveats in future versions (I'd like to,
+suggestions/patches welcome), but don't count on it.
+
+But even with these caveats this is still really useful for
+constructing a validated object all at once from say a HTTP request or
+to validate data by piggy-backing on the Moose type system without
+inventing your own validation logic.
 
 =head1 RATIONALE
 
