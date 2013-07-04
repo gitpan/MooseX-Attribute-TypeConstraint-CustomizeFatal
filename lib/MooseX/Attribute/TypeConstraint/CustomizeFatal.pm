@@ -3,7 +3,7 @@ BEGIN {
   $MooseX::Attribute::TypeConstraint::CustomizeFatal::AUTHORITY = 'cpan:AVAR';
 }
 {
-  $MooseX::Attribute::TypeConstraint::CustomizeFatal::VERSION = '0.02';
+  $MooseX::Attribute::TypeConstraint::CustomizeFatal::VERSION = '0.03';
 }
 use Moose::Role;
 use MooseX::Types::Moose ':all';
@@ -51,7 +51,12 @@ around _coerce_and_verify => sub {
                      $action eq 'default_no_warning') {
                 warn $error unless $action eq 'default_no_warning';
                 if ($self->has_default) {
-                    return $self->default;
+                    my $default = $self->default;
+                    return ref $default eq 'CODE'
+                        # If it's e.g. sub { [] }
+                        ? $default->()
+                        # It's just a normal SV, e.g. "12345"
+                        : $default;
                 } else {
                     confess(
                         "Attribute ("
@@ -75,7 +80,7 @@ BEGIN {
   $Moose::Meta::Attribute::Custom::Trait::TypeConstraint::CustomizeFatal::AUTHORITY = 'cpan:AVAR';
 }
 {
-  $Moose::Meta::Attribute::Custom::Trait::TypeConstraint::CustomizeFatal::VERSION = '0.02';
+  $Moose::Meta::Attribute::Custom::Trait::TypeConstraint::CustomizeFatal::VERSION = '0.03';
 }
 sub register_implementation { 'MooseX::Attribute::TypeConstraint::CustomizeFatal' }
 
